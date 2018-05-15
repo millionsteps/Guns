@@ -5,9 +5,9 @@ import com.stylefeng.guns.core.common.constant.state.ManagerStatus;
 import com.stylefeng.guns.core.shiro.ShiroUser;
 import com.stylefeng.guns.core.util.Convert;
 import com.stylefeng.guns.core.util.SpringContextHolder;
-import com.stylefeng.guns.modular.system.dao.MenuMapper;
-import com.stylefeng.guns.modular.system.dao.UserMapper;
-import com.stylefeng.guns.modular.system.model.User;
+import com.stylefeng.guns.entity.system.User;
+import com.stylefeng.guns.service.system.IMenuService;
+import com.stylefeng.guns.service.system.IUserService;
 import org.apache.shiro.authc.CredentialsException;
 import org.apache.shiro.authc.LockedAccountException;
 import org.apache.shiro.authc.SimpleAuthenticationInfo;
@@ -27,10 +27,10 @@ import java.util.List;
 public class ShiroFactroy implements IShiro {
 
     @Autowired
-    private UserMapper userMapper;
+    private IUserService userService;
 
     @Autowired
-    private MenuMapper menuMapper;
+    private IMenuService menuService;
 
     public static IShiro me() {
         return SpringContextHolder.getBean(IShiro.class);
@@ -39,7 +39,7 @@ public class ShiroFactroy implements IShiro {
     @Override
     public User user(String account) {
 
-        User user = userMapper.getByAccount(account);
+        User user = userService.getByAccount(account);
 
         // 账号不存在
         if (null == user) {
@@ -77,7 +77,7 @@ public class ShiroFactroy implements IShiro {
 
     @Override
     public List<String> findPermissionsByRoleId(Integer roleId) {
-        return menuMapper.getResUrlsByRoleId(roleId);
+        return menuService.getResUrlsByRoleId(roleId);
     }
 
     @Override

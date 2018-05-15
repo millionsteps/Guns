@@ -16,7 +16,7 @@ import com.stylefeng.guns.rest.modular.auth.converter.BaseTransferEntity;
 public class JsonTest {
 
     public static void main(String[] args) {
-        String randomKey = "1xm7hw";
+        String randomKey = "rxo61p";
 
         BaseTransferEntity baseTransferEntity = new BaseTransferEntity();
         SimpleObject simpleObject = new SimpleObject();

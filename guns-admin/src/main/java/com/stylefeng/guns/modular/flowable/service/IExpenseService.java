@@ -1,7 +1,7 @@
 package com.stylefeng.guns.modular.flowable.service;
 
 import com.baomidou.mybatisplus.service.IService;
-import com.stylefeng.guns.modular.system.model.Expense;
+import com.stylefeng.guns.entity.system.Expense;
 import com.stylefeng.guns.modular.flowable.model.TaskVo;
 
 import java.io.IOException;

@@ -5,6 +5,7 @@ import com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter;
 import com.stylefeng.guns.core.exception.GunsException;
 import com.stylefeng.guns.core.support.HttpKit;
 import com.stylefeng.guns.core.util.MD5Util;
+import com.stylefeng.guns.rest.common.SimpleObject;
 import com.stylefeng.guns.rest.common.exception.BizExceptionEnum;
 import com.stylefeng.guns.rest.config.properties.JwtProperties;
 import com.stylefeng.guns.rest.modular.auth.security.DataSecurityAction;
@@ -36,29 +37,35 @@ public class WithSignMessageConverter extends FastJsonHttpMessageConverter {
 
     @Override
     public Object read(Type type, Class<?> contextClass, HttpInputMessage inputMessage) throws IOException, HttpMessageNotReadableException {
-
         InputStream in = inputMessage.getBody();
-        Object o = JSON.parseObject(in, super.getFastJsonConfig().getCharset(), BaseTransferEntity.class, super.getFastJsonConfig().getFeatures());
 
-        //先转化成原始的对象
-        BaseTransferEntity baseTransferEntity = (BaseTransferEntity) o;
+        String requestHeader = HttpKit.getRequest().getHeader(jwtProperties.getHeader());
+        if (requestHeader != null) {
+            Object o = JSON.parseObject(in, super.getFastJsonConfig().getCharset(), BaseTransferEntity.class, super.getFastJsonConfig().getFeatures());
 
-        //校验签名
-        String token = HttpKit.getRequest().getHeader(jwtProperties.getHeader()).substring(7);
-        String md5KeyFromToken = jwtTokenUtil.getMd5KeyFromToken(token);
+            //先转化成原始的对象
+            BaseTransferEntity baseTransferEntity = (BaseTransferEntity) o;
 
-        String object = baseTransferEntity.getObject();
-        String json = dataSecurityAction.unlock(object);
-        String encrypt = MD5Util.encrypt(object + md5KeyFromToken);
+            //校验签名
+            String token = HttpKit.getRequest().getHeader(jwtProperties.getHeader()).substring(7);
+            String md5KeyFromToken = jwtTokenUtil.getMd5KeyFromToken(token);
 
-        if (encrypt.equals(baseTransferEntity.getSign())) {
-            System.out.println("签名校验成功!");
+            String object = baseTransferEntity.getObject();
+            String json = dataSecurityAction.unlock(object);
+            String encrypt = MD5Util.encrypt(object + md5KeyFromToken);
+
+            if (encrypt.equals(baseTransferEntity.getSign())) {
+                System.out.println("签名校验成功!");
+            } else {
+                System.out.println("签名校验失败,数据被改动过!");
+                throw new GunsException(BizExceptionEnum.SIGN_ERROR);
+            }
+
+            //校验签名后再转化成应该的对象
+            return JSON.parseObject(json, type);
         } else {
-            System.out.println("签名校验失败,数据被改动过!");
-            throw new GunsException(BizExceptionEnum.SIGN_ERROR);
+            Object o = JSON.parseObject(in, super.getFastJsonConfig().getCharset(), type, super.getFastJsonConfig().getFeatures());
+            return o;
         }
-
-        //校验签名后再转化成应该的对象
-        return JSON.parseObject(json, type);
     }
 }

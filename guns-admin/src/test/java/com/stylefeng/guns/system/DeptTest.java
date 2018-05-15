@@ -1,8 +1,8 @@
 package com.stylefeng.guns.system;
 
 import com.stylefeng.guns.base.BaseJunit;
-import com.stylefeng.guns.modular.system.dao.DeptMapper;
-import com.stylefeng.guns.modular.system.model.Dept;
+import com.stylefeng.guns.dao.system.DeptMapper;
+import com.stylefeng.guns.entity.system.Dept;
 import org.junit.Test;
 
 import javax.annotation.Resource;
