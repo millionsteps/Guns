@@ -43,6 +43,10 @@
             <groupId>com.stylefeng</groupId>
             <artifactId>guns-generator</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.stylefeng</groupId>
+            <artifactId>guns-service</artifactId>
+        </dependency>
 
         <!--spring boot依赖-->
         <dependency>

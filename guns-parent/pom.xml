@@ -13,6 +13,8 @@
         <module>../guns-core</module>
         <module>../guns-rest</module>
         <module>../guns-generator</module>
+        <module>../guns-restful</module>
+        <module>../guns-service</module>
     </modules>
 
     <parent>
@@ -35,7 +37,7 @@
         <kaptcha.version>2.3.2</kaptcha.version>
         <ehcache.version>3.3.1</ehcache.version>
         <zxing.version>3.2.1</zxing.version>
-        <druid.version>1.1.6</druid.version>
+        <druid.version>1.1.9</druid.version>
         <beetl.version>2.7.15</beetl.version>
         <swagger.version>2.2.2</swagger.version>
         <commons-lang3.version>3.6</commons-lang3.version>
@@ -58,11 +60,21 @@
                 <artifactId>flowable-spring-boot-starter-basic</artifactId>
                 <version>${flowable.version}</version>
             </dependency>
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>druid-spring-boot-starter</artifactId>
+                <version>${druid.version}</version>
+            </dependency>
             <!--guns-->
             <dependency>
                 <groupId>com.stylefeng</groupId>
                 <artifactId>guns-core</artifactId>
                 <version>${guns.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.stylefeng</groupId>
+                <artifactId>guns-service</artifactId>
+                <version>1.0.0-SNAPSHOT</version>
             </dependency>
 
             <dependency>

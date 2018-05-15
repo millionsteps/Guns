@@ -1,6 +1,7 @@
 package com.stylefeng.guns.core.common.constant.factory;
 
-import com.stylefeng.guns.modular.system.model.Dict;
+
+import com.stylefeng.guns.entity.system.Dict;
 
 import java.util.List;
 
